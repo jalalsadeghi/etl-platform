@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    container_name: etl_postgres_dev
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"       # expose to host for venv app
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+    networks: [devnet]
+
+networks:
+  devnet:
+
+volumes:
+  pgdata_dev:

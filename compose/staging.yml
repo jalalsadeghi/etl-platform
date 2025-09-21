@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata_staging:/var/lib/postgresql/data
+    networks: [webnet]
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/app/Dockerfile
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_HOST: ${APP_HOST}
+      APP_PORT: ${APP_PORT}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+    depends_on: [postgres]
+    networks: [webnet]
+
+  nginx:
+    image: nginx:1.27-alpine
+    environment:
+      SERVER_NAME: ${SERVER_NAME}
+    ports:
+      - "80:80"   # TLS will be added later (443)
+    volumes:
+      - ../docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on: [app]
+    networks: [webnet]
+
+volumes:
+  pgdata_staging:
+
+networks:
+  webnet:
