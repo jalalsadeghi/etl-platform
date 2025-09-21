@@ -1,4 +1,6 @@
+from app.models.external_user import ExternalUser
 from app.models.user import User
+from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
 
@@ -21,3 +23,21 @@ def load_users(df, db: Session):
         created += 1
     db.commit()
     return created
+
+
+def upsert_external_users(df, db: Session) -> int:
+    if df.empty:
+        return 0
+    rows = df.to_dict(orient="records")
+    stmt = insert(ExternalUser).values(rows)
+    # On conflict by ext_id, update name/email
+    stmt = stmt.on_conflict_do_update(
+        index_elements=[ExternalUser.ext_id],
+        set_={
+            "name": stmt.excluded.name,
+            "email": stmt.excluded.email,
+        },
+    )
+    result = db.execute(stmt)
+    db.commit()
+    return result.rowcount or 0

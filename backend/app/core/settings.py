@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     ALLOWED_ORIGINS: str = "*"
 
     ETL_SOURCE_URL: str = "https://jsonplaceholder.typicode.com/users"
+    ETL_API_KEY: str | None = None
 
     @property
     def DATABASE_URL(self) -> str:
