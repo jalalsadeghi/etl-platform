@@ -1,8 +1,10 @@
 import logging
 
-from app.db.session import engine
 from fastapi import FastAPI
 from sqlalchemy import text
+
+from app.api.routers.ingest import router as ingest_router
+from app.db.session import engine
 
 logging.basicConfig(
     level=logging.INFO,
@@ -27,3 +29,6 @@ def readiness():
     except Exception as e:
         logger.exception("DB readiness check failed")
         return {"status": "degraded", "db": "error", "detail": str(e)}
+
+
+app.include_router(ingest_router)

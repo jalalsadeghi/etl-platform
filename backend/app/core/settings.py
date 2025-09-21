@@ -1,3 +1,5 @@
+# core/settings.py
+
 from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -16,6 +18,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "e89e3d3afe7b77f3c1eab2b29d72bf357ab9bdbd7f1562d4f5a9cef893c163a0"
     ALLOWED_ORIGINS: str = "*"
 
+    ETL_SOURCE_URL: str = "https://jsonplaceholder.typicode.com/users"
+
     @property
     def DATABASE_URL(self) -> str:
         return (
@@ -24,7 +28,7 @@ class Settings(BaseSettings):
         )
 
     model_config = SettingsConfigDict(
-        env_file=".env.development",
+        env_file="backend/.env.development",
         env_file_encoding="utf-8",
         extra="forbid",
     )

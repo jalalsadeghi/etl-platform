@@ -1,7 +1,13 @@
-# .pre-commit-config.yaml  (ریشه‌ی etl-platform/)
+# .pre-commit-config.yaml
 exclude: ^(\.venv/|venv/|backend/\.venv/)
 
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:
