@@ -1,8 +1,13 @@
+# .pre-commit-config.yaml  (ریشه‌ی etl-platform/)
+exclude: ^(\.venv/|venv/|backend/\.venv/)
+
 repos:
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:
       - id: black
+        files: ^backend/
+        exclude: ^(backend/\.venv/|\.venv/|venv/)
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.9
@@ -10,5 +15,4 @@ repos:
       - id: ruff
         args: ["--fix"]
         files: ^backend/
-        exclude: ^backend/\.venv/
-      # - id: ruff-format
+        exclude: ^(backend/\.venv/|\.venv/|venv/)
