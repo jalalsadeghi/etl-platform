@@ -15,7 +15,10 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = "etl_user"
     POSTGRES_PASSWORD: str = "etlPassword123!"
 
-    SECRET_KEY: str = "e89e3d3afe7b77f3c1eab2b29d72bf357ab9bdbd7f1562d4f5a9cef893c163a0"
+    secret_key: str = Field(
+        ...,
+        validation_alias=AliasChoices("SECRET_KEY", "secret_key"),
+    )
     ALLOWED_ORIGINS: str = "*"
 
     ETL_SOURCE_URL: str = "https://jsonplaceholder.typicode.com/users"
