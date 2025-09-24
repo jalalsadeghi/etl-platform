@@ -1,10 +1,13 @@
+# backend/app/api/routers/ingest.py
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
 from app.core.settings import settings
 from app.db.session import SessionLocal
 from app.etl.client import fetch_paginated, fetch_rows
 from app.etl.load import load_users, upsert_external_users
 from app.etl.transform import clean_rows, to_users_df
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from app.tasks.etl_tasks import run_users_ingest
 
 router = APIRouter(prefix="/ingest", tags=["ingest"])
 
@@ -37,3 +40,9 @@ async def ingest_users_demo(db: Session = Depends(get_db)):
     df = to_users_df(rows)
     affected = upsert_external_users(df, db)
     return {"source": settings.ETL_SOURCE_URL, "rows": len(df), "upserted": affected}
+
+
+@router.post("/users-demo-async")
+async def ingest_users_demo_async():
+    task_res = await run_users_ingest.kiq()
+    return {"queued": True, "task_id": task_res.task_id}

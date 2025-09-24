@@ -13,3 +13,5 @@ ruff
 black
 pre-commit
 pandas
+taskiq
+taskiq-redis
