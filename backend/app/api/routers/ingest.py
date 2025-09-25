@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.core.auth import api_key_auth
 from app.core.settings import settings
 from app.db.session import SessionLocal
 from app.etl.client import fetch_paginated, fetch_rows
@@ -9,7 +10,9 @@ from app.etl.load import load_users, upsert_external_users
 from app.etl.transform import clean_rows, to_users_df
 from app.tasks.etl_tasks import run_users_ingest
 
-router = APIRouter(prefix="/ingest", tags=["ingest"])
+router = APIRouter(
+    prefix="/ingest", tags=["ingest"], dependencies=[Depends(api_key_auth)]
+)
 
 
 def get_db():
