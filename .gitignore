@@ -1,11 +1,14 @@
 # Python
 __pycache__/
 *.py[cod]
+*.pyc
 *.pyo
 *.pyd
 *.pdb
 *.egg-info/
 *.log
+
+
 
 # Virtual environments
 .venv/
