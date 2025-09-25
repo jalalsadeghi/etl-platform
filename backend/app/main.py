@@ -5,6 +5,8 @@ from sqlalchemy import text
 
 from app.api.routers.ingest import router as ingest_router
 from app.db.session import engine
+from app.middleware.logging import RequestLogMiddleware
+from app.middleware.ratelimit import RateLimitMiddleware
 
 logging.basicConfig(
     level=logging.INFO,
@@ -32,3 +34,5 @@ def readiness():
 
 
 app.include_router(ingest_router)
+app.add_middleware(RequestLogMiddleware)
+app.add_middleware(RateLimitMiddleware)
