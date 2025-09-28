@@ -16,7 +16,7 @@ services:
     networks: [webnet]
 
   app:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/etl-platform:${IMAGE_TAG:-latest}
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/etl-app:${IMAGE_TAG:-latest}
     # during first run you can set IMAGE_TAG manually or use 'latest'
     environment:
       APP_ENV: ${APP_ENV}
@@ -38,7 +38,7 @@ services:
     networks: [webnet]
 
   worker:
-    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/etl-platform:${IMAGE_TAG:-latest}
+    image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/etl-app:${IMAGE_TAG:-latest}
     environment:
       APP_ENV: ${APP_ENV}
       POSTGRES_HOST: postgres
