@@ -67,8 +67,8 @@ jobs:
           script: |
             set -e
             cd ${STAGING_PATH:-/opt/etl-platform}
-            # ensure .env.staging exists with strong secrets on server
-            sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${{ env.IMAGE_TAG }}/" .env.staging || echo "IMAGE_TAG=${{ env.IMAGE_TAG }}" >> .env.staging
+            # ensure backend/.env.staging exists with strong secrets on server
+            sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${{ env.IMAGE_TAG }}/" backend/.env.staging || echo "IMAGE_TAG=${{ env.IMAGE_TAG }}" >> backend/.env.staging
             docker compose -f compose/staging.yml pull
             docker compose -f compose/staging.yml up -d
             docker system prune -f
