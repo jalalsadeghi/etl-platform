@@ -16,3 +16,4 @@ pandas
 taskiq
 taskiq-redis
 redis
+prometheus-fastapi-instrumentator

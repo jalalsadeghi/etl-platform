@@ -76,6 +76,23 @@ services:
       - letsencrypt:/etc/letsencrypt
     networks: [webnet]
 
+  prometheus:
+    image: prom/prometheus:v2.55.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    networks: [webnet]
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=StrongGrafanaPass!
+    ports:
+      - "3000:3000"
+    networks: [webnet]
+
 volumes:
   pgdata_staging:
   certbot-webroot:
