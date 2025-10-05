@@ -70,11 +70,9 @@ services:
 
   certbot:
     image: certbot/certbot:v2.11.0
-    # Renewal loop; initial issuance is a one-off command below
     entrypoint: /bin/sh
     command: -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h; done"
     volumes:
-      - ../docker/nginx/nginx.bootstrap.conf:/etc/nginx/nginx.conf:ro
       - certbot-webroot:/var/www/certbot
       - letsencrypt:/etc/letsencrypt
     networks: [webnet]
