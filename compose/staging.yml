@@ -52,7 +52,7 @@ services:
       API_KEY: ${API_KEY}
       REDIS_URL: redis://redis:6379/0
     depends_on: [postgres, redis]
-    command: ["python","-m","taskiq","worker","app.tasks.broker:broker","-m","app.tasks.etl_tasks"]
+    command: ["python","-m","taskiq","worker","app.tasks.broker:broker","app.tasks.etl_tasks"]
     networks: [webnet]
 
   nginx:
