@@ -77,13 +77,17 @@ services:
       - letsencrypt:/etc/letsencrypt
     networks: [webnet]
 
-  prometheus:
+    prometheus:
     image: prom/prometheus:v2.55.0
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
       - "9090:9090"
     networks: [webnet]
+    extra_hosts:
+      - "app:172.18.0.10"
+      - "cadvisor:172.18.0.11"
+      - "node_exporter:172.18.0.12"
 
   grafana:
     image: grafana/grafana:11.1.0
