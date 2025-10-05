@@ -75,7 +75,7 @@ jobs:
               echo "IMAGE_TAG=${{ github.sha }}" >> .env.staging
             fi
             docker compose --env-file .env.staging -f compose/staging.yml pull
-            # docker compose --env-file .env.staging -f compose/staging.yml up -d
+            docker compose --env-file .env.staging -f compose/staging.yml up -d
             docker compose --env-file .env.staging -f compose/staging.yml down
             docker compose --env-file .env.staging -f compose/staging.yml up -d
             docker system prune -f
