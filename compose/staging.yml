@@ -53,7 +53,7 @@ services:
       API_KEY: ${API_KEY}
       REDIS_URL: redis://redis:6379/0
     depends_on: [postgres, redis]
-    command: ["python", "-m", "taskiq", "worker", "app.tasks.broker:broker", "-m", "app.tasks.etl_tasks"]
+    command: ["python", "-m", "taskiq", "worker", "app.tasks.broker:broker", "app.tasks.etl_tasks"]
     networks: [webnet]
 
   nginx:
@@ -77,7 +77,7 @@ services:
       - letsencrypt:/etc/letsencrypt
     networks: [webnet]
 
-    prometheus:
+  prometheus:
     image: prom/prometheus:v2.55.0
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
